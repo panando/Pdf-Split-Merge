@@ -53,20 +53,21 @@ def extract_interesting_pdf_pages(pdf_dict: dict) -> list:
         pdf_file_path = list(details_dict.keys())[0]
         page_numbers = list(details_dict.values())[0]
 
-        pdf = PyPDF2.PdfFileReader(pdf_file_path)
+        pdf = PyPDF2.PdfReader(pdf_file_path)
+        print("Total page numbers of {0} is {1}.".format(pdf_file_path,len(pdf.pages)))
         for i in page_numbers:
             p = i - 1
             try:
-                pages.append(pdf.getPage(p))
+                pages.append(pdf.pages[p])
             except:
                 print("There is no page: {0} in pdf file: {1}, so it is skipped".format(p, pdf_file_path))
     return pages
 
 
 def merge_pdf_pages(pdf_pages: list) -> PyPDF2.PdfFileWriter:
-    pdf = PyPDF2.PdfFileWriter()
+    pdf = PyPDF2.PdfWriter()
     for p in pdf_pages:
-        pdf.addPage(p)
+        pdf.add_page(p)
     return pdf
 
 
@@ -89,5 +90,5 @@ def split_and_merge():
     with open(output_pdf_file_path, "wb") as f:
         pdf.write(f)
 
-    print("[*] Final number of pages in the new document: {0}".format(pdf.getNumPages()))
+    print("[*] Final number of pages in the new document: {0}".format(len(pdf.pages)))
     print("[*] Split and Merge is done! File is written to path: {0}".format(output_pdf_file_path))
