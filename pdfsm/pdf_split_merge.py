@@ -64,7 +64,7 @@ def extract_interesting_pdf_pages(pdf_dict: dict) -> list:
     return pages
 
 
-def merge_pdf_pages(pdf_pages: list) -> PyPDF2.PdfFileWriter:
+def merge_pdf_pages(pdf_pages: list) -> PyPDF2.PdfWriter:
     pdf = PyPDF2.PdfWriter()
     for p in pdf_pages:
         pdf.add_page(p)
